@@ -1,8 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { CiHome, SiYoutubeshorts, MdOutlineSubscriptions, MdOutlineVideoLibrary, MdOutlineHistory, MdOutlineWatchLater, MdOutlineThumbUp, MdOutlineExpandMore, AiOutlineLike } from "react-icons";
+import { CiHome } from "react-icons/ci";
+import { SiYoutubeshorts } from "react-icons/si";
+import { MdOutlineSubscriptions, MdOutlineVideoLibrary,MdPlaylistPlay, MdOutlineHistory, MdOutlineWatchLater, MdOutlineThumbUp, MdOutlineExpandMore } from "react-icons/md";
+import { AiOutlineLike } from "react-icons/ai";
 
-// Define the items to be displayed in the sidebar
+// Definition of the sidebar elements with their icons and titles
 const sidebarItems = [
   {
     icon: <CiHome size="24px" />,
@@ -19,6 +22,10 @@ const sidebarItems = [
   {
     icon: <MdOutlineVideoLibrary size="24px" />,
     title: "Library",
+  },
+  {
+    icon: <MdPlaylistPlay size="24px" />,
+    title: "Playlists",
   },
   {
     icon: <MdOutlineHistory size="24px" />,
@@ -38,18 +45,21 @@ const sidebarItems = [
   },
 ];
 
-// Define the Sidebar component
+// Sidebar Component
 const Sidebar = () => {
-  // Get the 'open' state from the Redux store
+  //Get the 'open' state of the Redux store to determine if the sidebar is open or closed
   const open = useSelector((store) => store.app.open);
 
   return (
-    // Set the sidebar's width based on the 'open' state
+    // Main sidebar container
     <div className={`flex flex-col p-4 bg-white h-full ${open ? "w-64" : "w-20"} transition-width duration-300`}>
+      {/* Mapping sidebar elements */}
       {sidebarItems.map((item, index) => (
-        // Render each sidebar item
+        // Each sidebar element
         <div key={index} className="flex items-center p-2 hover:bg-gray-100 cursor-pointer">
+          {/* Element icon */}
           <div className="mr-4">{item.icon}</div>
+          {/* Item title, shown only if the sidebar is open */}
           <div className={`${open ? "block" : "hidden"} text-sm font-medium`}>{item.title}</div>
         </div>
       ))}
