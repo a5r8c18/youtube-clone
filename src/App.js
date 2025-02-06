@@ -1,4 +1,5 @@
 import Home from './pages/Home'; 
+import Sidebar from './components/Sidebar';
 import './App.css';
 
 function App() {
@@ -6,6 +7,9 @@ function App() {
     <div className="App">
       
       <Home />
+      <div className='flex mt-2'>
+        <Sidebar />
+      </div>
     </div>
   );
 }

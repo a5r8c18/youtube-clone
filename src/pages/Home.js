@@ -50,7 +50,7 @@ const Home = () => {
     <div className="flex fixed top-0 justify-center items-center w-[100%] z-10 bg-white">
       <div className="flex w-[96%] py-3 justify-between items-center">
         <div className="flex items-center ">
-          <GiHamburgerMenu onClick={toggleHandler} size="24px" className="cursor-pointer" />  {/*estilos para el menu desplegable*/}
+          <GiHamburgerMenu onClick={toggleHandler} size="24px" className="cursor-pointer" />  {/*styles for dropdown menu*/}
           <img className="px-4" width={"115px"} src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/768px-YouTube_Logo_2017.svg.png" alt="yt_logo" />
         </div>
         <div className="flex w-[40%] items-center">
@@ -60,7 +60,7 @@ const Home = () => {
               onFocus={openSuggestion}
               onChange={(e) => setInput(e.target.value)}
               type="text"
-              placeholder="Search"
+              placeholder="Search"/* search bar*/ 
               className="w-full py-2 px-4 border border-gray-400 rounded-l-full outline-none"
             />
             <button onClick={searchVideo} className="py-2 border border-gray-400 rounded-r-full px-4">
@@ -80,7 +80,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className="flex w-[10%] justify-between items-center">
+        <div className="flex w-[10%] justify-between items-center">{/*styles for notifications icon*/}
           <IoIosNotificationsOutline size={"24px"} className="cursor-pointer" />
           <CiVideoOn size={"24px"} className="cursor-pointer" />
           <Avatar src="https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw" size={35} round={true} />
