@@ -3,41 +3,52 @@ import { useSearchParams } from "react-router-dom";
 import API_KEY from '../constant/youtube';
 import axios from "axios";
 import Avatar from "react-avatar";
-import { AiOutlineLike, AiOutlineDislike } from "react-icons/ai";
+import { AiOutlineLike, AiOutlineDislike, AiFillLike, AiFillDislike } from "react-icons/ai";
 import { PiShareFatLight } from "react-icons/pi";
 import { GoDownload } from "react-icons/go";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { LuSendHorizonal } from "react-icons/lu";
 import LiveChat from './LiveChat';
-import {useDispatch} from "react-redux";
-import {setMessage} from "../utils/chatSlice";
+import { useDispatch } from "react-redux";
+import { setMessage } from "../utils/chatSlice";
+import VideoCart from './VideoCart'; // Importa el componente VideoCart
 
 const Watch = () => {
     const [input, setInput] = useState("");
     const [singleVideo, setSingleVideo] = useState(null);
+    const [liked, setLiked] = useState(false);
+    const [disliked, setDisliked] = useState(false);
     const [searchParams] = useSearchParams();
     const videoId = searchParams.get('v');
     const dispatch = useDispatch();
 
-    const getSingleVideo = async () => {
-        try {
-            const res = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`);
-            setSingleVideo(res?.data?.items[0]);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
     const sendMessage = () => {
-        dispatch(setMessage({name:"Patel", message:input}));
+        dispatch(setMessage({ name: "Patel", message: input }));
         setInput("");
     }
 
+    const handleLike = () => {
+        setLiked(!liked);
+        if (disliked) setDisliked(false);
+    }
+
+    const handleDislike = () => {
+        setDisliked(!disliked);
+        if (liked) setLiked(false);
+    }
+
     useEffect(() => {
+        const getSingleVideo = async () => {
+            try {
+                const res = await axios.get(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&id=${videoId}&key=${API_KEY}`);
+                setSingleVideo(res?.data?.items[0]);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
         getSingleVideo();
-    }, []);
-
-
+    }, [videoId]);
 
     return (
         <div className='flex ml-4 w-[100%] mt-2'>
@@ -50,32 +61,33 @@ const Watch = () => {
                         title="YouTube video player"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                         allowFullScreen>
-
                     </iframe>
                     <h1 className='font-bold mt-2 text-lg'>{singleVideo?.snippet?.title}</h1>
-                    <div className='flex items-center justify-between'>
-                        <div className='flex items-center justify-between w-[35%]'>
-                            <div className='flex'>
-                                <Avatar src="https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw" size={35} round={true} />
-                                <h1 className='font-bold ml-2'>{singleVideo?.snippet?.channelTitle}</h1>
-                            </div>
-                            <button className='px-4 py-1 font-medium bg-black text-white rounded-full'>Subscribe</button>
+                    <div className='flex items-center justify-between mt-2'>
+                        <div className='flex items-center'>
+                            <Avatar src="https://play-lh.googleusercontent.com/C9CAt9tZr8SSi4zKCxhQc9v4I6AOTqRmnLchsu1wVDQL0gsQ3fmbCVgQmOVM1zPru8UH=w240-h480-rw" size={35} round={true} />
+                            <h1 className='font-bold ml-2'>{singleVideo?.snippet?.channelTitle}</h1>
+                            <span className='ml-4 text-sm text-gray-600'>{singleVideo?.statistics?.viewCount} views</span>
                         </div>
-                        <div className='flex items-center w-[40%] justify-between mt-2'>
-                            <div className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
-                                <AiOutlineLike size="20px" className='mr-5' />
-                                <AiOutlineDislike size="20px" />
-                            </div>
-                            <div className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
-                                <PiShareFatLight size="20px" className='mr-2' />
-                                <span>Share</span>
-                            </div>
-                            <div className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
-                                <GoDownload />
-                                <span>Download</span>
-                            </div>
+                        <button className='px-4 py-1 font-medium bg-black text-white rounded-full'>Subscribe</button>
+                    </div>
+                    <div className='flex items-center w-[40%] justify-between mt-2'>
+                        <div onClick={handleLike} className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
+                            {liked ? <AiFillLike size="20px" className='mr-5' /> : <AiOutlineLike size="20px" className='mr-5' />}
+                        </div>
+                        <div onClick={handleDislike} className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
+                            {disliked ? <AiFillDislike size="20px" /> : <AiOutlineDislike size="20px" />}
+                        </div>
+                        <div className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
+                            <PiShareFatLight size="20px" className='mr-2' />
+                            <span>Share</span>
+                        </div>
+                        <div className='flex items-center cursor-pointer bg-gray-200 px-4 py-2 rounded-full'>
+                            <GoDownload />
+                            <span>Download</span>
                         </div>
                     </div>
+                    <p className='mt-2 text-gray-600'>{singleVideo?.snippet?.description}</p> {/* Añadido para mostrar la descripción */}
                 </div>
                 <div className='w-[100%] border border-gray-300 ml-8 rounded-lg h-fit p-4'>
                     <div className='flex justify-between items-center'>
@@ -98,10 +110,23 @@ const Watch = () => {
                         </div>
                     </div>
                 </div>
+                {/* Render the VideoCart component and pass the necessary props */}
+                {singleVideo && (
+                    <VideoCart
+                        item={{
+                            snippet: singleVideo.snippet,
+                            id: { videoId: singleVideo.id }
+                        }}
+                        viewCount={singleVideo.statistics.viewCount}
+                    />
+                )}
             </div>
-
         </div>
     )
 }
 
-export default Watch
+export default Watch;
+
+
+
+
