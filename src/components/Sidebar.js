@@ -11,6 +11,7 @@ const sidebarItems = [
   {
     icon: <CiHome size="24px" className="text-black dark:text-white" />,
     title: "Home",
+    path: "/home",
   },
   {
     icon: <SiYoutubeshorts size="24px" className="text-black dark:text-white" />,

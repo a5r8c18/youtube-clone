@@ -18,7 +18,7 @@ const appRouter = createBrowserRouter([
     children: [
       {
         // Default child route (same as root path)
-        path: "/",
+        path: "/home",
         // Component to render for the default child route
         element: <Feed />
       },
@@ -30,7 +30,7 @@ const appRouter = createBrowserRouter([
       },
       {
         // Path for the watch page
-        path: "/",
+        path: "/home",
         // Component to render for the watch page
         element: <Home />
       }
