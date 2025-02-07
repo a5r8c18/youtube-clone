@@ -65,7 +65,7 @@ const Sidebar = () => {
 
   return (
     // Main sidebar container
-    <div className={`flex flex-col p-4 bg-white dark:bg-gray-800 h-full ${open ? "w-64" : "w-20"} transition-width duration-300`}>
+    <div className={`flex flex-col p-4 bg-white dark:bg-gray-800 h-full ${open ? "w-64" : "w-20"} transition-width duration-300 overflow-y-auto`}>
       {/* Mapping sidebar elements */}
       {sidebarItems.map((item, index) => (
         // Check if the item is a divider
