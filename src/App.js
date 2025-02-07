@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Watch from "./components/Watch";
 import Feed from "./components/Feed";
 
+
 // Define the routes for the application using createBrowserRouter
 const appRouter = createBrowserRouter([
   {
@@ -26,6 +27,12 @@ const appRouter = createBrowserRouter([
         path: "/watch",
         // Component to render for the watch page
         element: <Watch />
+      },
+      {
+        // Path for the watch page
+        path: "/",
+        // Component to render for the watch page
+        element: <Home />
       }
     ]
   }

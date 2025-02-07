@@ -2,10 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { CiHome } from "react-icons/ci";
 import { SiYoutubeshorts } from "react-icons/si";
-import { MdOutlineSubscriptions, MdOutlineVideoLibrary, MdPlaylistPlay, MdOutlineHistory, MdOutlineWatchLater, MdOutlineThumbUp, MdOutlineExpandMore, MdOutlineExplore } from "react-icons/md";
+import { MdOutlineSubscriptions, MdOutlineVideoLibrary, MdPlaylistPlay, MdOutlineHistory, MdOutlineWatchLater, MdOutlineExpandMore, MdOutlineExplore } from "react-icons/md";
 import { AiOutlineLike } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
-// Definición de los elementos de la barra lateral con sus íconos y títulos
+// Definition of the sidebar elements with their icons and titles
 const sidebarItems = [
   {
     icon: <CiHome size="24px" className="text-black dark:text-white" />,
@@ -18,6 +19,10 @@ const sidebarItems = [
   {
     icon: <MdOutlineSubscriptions size="24px" className="text-black dark:text-white" />,
     title: "Subscriptions",
+  },
+  // Divider before Explore
+  {
+    type: "divider",
   },
   {
     icon: <MdOutlineExplore size="24px" className="text-black dark:text-white" />,
@@ -44,31 +49,40 @@ const sidebarItems = [
     title: "Liked Videos",
   },
   {
+    type: "divider",
+  },
+  {
     icon: <MdOutlineExpandMore size="24px" className="text-black dark:text-white" />,
     title: "Show More",
   },
 ];
 
-// Componente de la Barra Lateral
+// Sidebar Component
 const Sidebar = () => {
-  // Obtener el estado 'open' del store de Redux para determinar si la barra lateral está abierta o cerrada
+  // Get the 'open' state from the Redux store to determine if the sidebar is open or closed
   const open = useSelector((store) => store.app.open);
 
   return (
-    // Contenedor principal de la barra lateral
+    // Main sidebar container
     <div className={`flex flex-col p-4 bg-white dark:bg-gray-800 h-full ${open ? "w-64" : "w-20"} transition-width duration-300`}>
-      {/* Mapear los elementos de la barra lateral */}
+      {/* Mapping sidebar elements */}
       {sidebarItems.map((item, index) => (
-        // Cada elemento de la barra lateral
-        <div key={index} className="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
-          {/* Ícono del elemento */}
-          <div className="mr-4">{item.icon}</div>
-          {/* Título del elemento, mostrado solo si la barra lateral está abierta */}
-          <div className={`${open ? "block" : "hidden"} text-sm font-medium dark:text-white`}>{item.title}</div>
-        </div>
+        // Check if the item is a divider
+        item.type === "divider" ? (
+          <hr key={index} className="border-t border-gray-200 dark:border-gray-600 my-2" />
+        ) : (
+          // Each sidebar element with a link
+          <Link to={item.path || "#"} key={index} className="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
+            {/* Element icon */}
+            <div className="mr-4">{item.icon}</div>
+            {/* Item title, shown only if the sidebar is open */}
+            <div className={`${open ? "block" : "hidden"} text-sm font-medium dark:text-white`}>{item.title}</div>
+          </Link>
+        )
       ))}
     </div>
   );
 };
 
 export default Sidebar;
+
