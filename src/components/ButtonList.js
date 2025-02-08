@@ -3,33 +3,33 @@ import { useDispatch } from 'react-redux';
 import { setCategory } from '../utils/appSlice';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 
-// Definición de la lista de etiquetas de los botones
+
 const buttonList = ["All", "Javascript", "Java", "Live", "Music", "Songs", "Vlogs", "Trending", "Programming", "News", "Technology", "Cricket", "Comedy", "Thriller", "New to you", "Computer Programming", "Netlify", "Coding"];
 
 // Componente ButtonList
 const ButtonList = () => {
-  // Estado para rastrear el botón actualmente activo
+  // State to track the currently active button
   const [active, setActive] = useState("All");
-  // Estados para controlar la visibilidad de los botones de desplazamiento
+  // States to control the visibility of the scroll buttons
   const [showNext, setShowNext] = useState(true);
   const [showPrevious, setShowPrevious] = useState(false);
-  // Referencia al contenedor del desplazamiento
+  // Reference to the scroll container
   const scrollContainerRef = useRef(null);
-  // Obtener la función dispatch desde Redux
+  // Getting the dispatch function from Redux
   const dispatch = useDispatch();
 
-  // Función para manejar los clics en los botones
+  // Function to handle button clicks
   const videoByTag = (tag) => {
-    // Si el botón clicado no está ya activo
+    // If the clicked button is not already active
     if (active !== tag) {
-      // Despacha una acción para establecer la categoría en el store de Redux
+      // Dispatch an action to set the category in the Redux store
       dispatch(setCategory(tag));
-      // Actualiza el estado activo al botón clicado
+      // Update the active state to the clicked button
       setActive(tag);
     }
   }
 
-  // Función para desplazar hacia la derecha
+  // Function to scroll to the right
   const scrollRight = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft += 150;
@@ -37,7 +37,7 @@ const ButtonList = () => {
     }
   }
 
-  // Función para desplazar hacia la izquierda
+  // Function to scroll to the left
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft -= 150;
@@ -45,7 +45,7 @@ const ButtonList = () => {
     }
   }
 
-  // Función para actualizar la visibilidad de los botones de desplazamiento
+  // Function to update the visibility of the scroll buttons
   const updateScrollButtons = () => {
     if (scrollContainerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
@@ -54,32 +54,31 @@ const ButtonList = () => {
     }
   }
 
-  // Efecto para actualizar los botones de desplazamiento al montar el componente
+  // Effect to update the scroll buttons when the component mounts
   useEffect(() => {
     updateScrollButtons();
   }, []);
-
   return (
     <div className='flex items-center w-full my-1'>
-      {/* Icono para desplazar hacia la izquierda */}
+      {/* Icon to scroll to the left */}
       {showPrevious && (
         <button onClick={scrollLeft} className='p-2'>
           <GrPrevious size="24px" />
         </button>
       )}
-      {/* Contenedor para la lista de botones con desplazamiento horizontal */}
+      {/* Container for the button list with horizontal scrolling */}
       <div ref={scrollContainerRef} className='flex overflow-x-auto scrollbar-hide w-full' onScroll={updateScrollButtons}>
         {
-          // Itera sobre el array buttonList para crear botones
+          // Iterate over the buttonList array to create buttons
           buttonList.map((buttonName, index) => {
             return (
-              // Cada botón envuelto en un div con una clave única
+              // Each button wrapped in a div with a unique key
               <div key={index}>
                 <button 
                   onClick={() => { videoByTag(buttonName) }} 
                   className={`${active === buttonName ? "bg-slate-900 text-white dark:bg-gray-700" : "bg-gray-200 dark:bg-gray-800 dark:text-white"} w-fit font-medium mx-1 cursor-pointer px-3 py-2 rounded-lg`}
                 >
-                  {/* Etiqueta del botón */}
+                  {/* Button label */}
                   <span className="whitespace-nowrap">{buttonName}</span>
                 </button>
               </div>
@@ -87,7 +86,7 @@ const ButtonList = () => {
           })
         }
       </div>
-      {/* Icono para desplazar hacia la derecha */}
+      {/* Icon to scroll to the right */}
       {showNext && (
         <button onClick={scrollRight} className='p-2'>
           <GrNext size="24px" />
@@ -97,6 +96,6 @@ const ButtonList = () => {
   )
 }
 
-// Exporta el componente ButtonList como exportación predeterminada
+
 export default ButtonList;
 

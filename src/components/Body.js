@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 const Body = () => {
   return (
     // Main container with flex layout and top margin
-    <div className="flex mt-16">
+    <div className="flex mt-16  bg-white dark:bg-gray-800">
       {/* Render the Sidebar component */}
       <Sidebar />
       {/* Render the matched child route component */}
